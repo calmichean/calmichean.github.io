@@ -68,24 +68,23 @@ const calmichean_current_day = (function(){
 })();
 
 function date_from_yday(year_day) {
+  let m_name = "", m=null,d=null;
   if (year_day < 1 || year_day > days_this_year) {
-    return 'error: day of year is not possible'
+    m_name = 'error: day of year is not possible'
   }
   else if (year_day == 1) {
-    return 'New Year\'s Day';
+    m_name = 'New Year\'s Day';
   }
   else if (moon_days[year_day]) {
-    return 'Moon Day ' + moon_days[year_day];
+    m_name = 'Moon Day ' + moon_days[year_day];
   }
   else if (first_day_of_years_end <= year_day && year_day <= days_this_year) {
-    let s = 'Year\'s End Day ' + (year_day - first_day_of_years_end + 1);
+    m_name = 'Year\'s End Day ' + (year_day - first_day_of_years_end + 1);
     if (year_day == days_this_year) {
-      s += ' (New Year\'s Eve)';
+      m_name += ' (New Year\'s Eve)';
     }
-    return s;
   }
   else {
-    let m = 0, d = 0, m_name = "";
     for (let i = 0; i < months.length; i++) {
       let month = months[i];
       if (month['start'] <= year_day && year_day <= month['end']) {
@@ -94,9 +93,8 @@ function date_from_yday(year_day) {
         d = year_day - month['start'] + 1;
       }
     }
-
-    return {"month":m, "day":d, "month_name":m_name};
   }
+  return {"month":m, "day":d, "month_name":m_name};
 }
 
 function todays_date() {
@@ -104,7 +102,10 @@ function todays_date() {
 }
 
 function format_for_html(date) {
-  let html = date["month_name"]+ '<br>' + date["month"].toString() + '/' + date["day"].toString();
+  let html = date["month_name"];
+  if (date["day"] != null && date["month"] != null) {
+    html += '<br>' + date["month"].toString() + '/' + date["day"].toString();
+  }
   return html;
 }
 
