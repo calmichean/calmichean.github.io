@@ -11,15 +11,37 @@
         font-size: 3em;
       }
       #main-article {
+        border: solid 1px #363636;
+        border-radius: 20px;
+        background-color: #9effea;
+      }
+      article {
         margin-left: 10%;
         margin-right: 10%;
         padding-left: 5%;
         padding-right: 5%;
         width: 70%;
-        border: solid 1px #363636;
-        border-radius: 20px;
         text-align: center;
-        background-color: #9effea;
+        font-size: 1.2em;
+      }
+      ul {
+        text-align: left;
+        list-style-type: none;
+        font-size: 0.8em;
+        width:80%;
+        padding-left: 17%;
+      }
+      #calendar-layout {
+        margin-top: 12%;
+        border: solid 1px black;
+      }
+      .moon {
+        color:#0084ff;
+        font-style: italic;
+      }
+      .buffer {
+        color: #b0637b;
+        font-style: oblique;
       }
     </style>
   </head>
@@ -29,6 +51,15 @@
 
       <p id="date_info">
       </p>
+    </article>
+
+    <article id="calendar-layout">
+      <p>
+        full calendar
+      </p>
+      <ul id="calendar-items">
+        <li>thing</li>
+      </ul>
     </article>
     <script src="date_func.js"></script>
   </body>

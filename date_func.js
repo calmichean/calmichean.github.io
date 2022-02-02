@@ -14,6 +14,7 @@ const moon_days = {
   296: 5,
   355: 6
 };
+
 const months = [
   {"start":2, "end":30, "number":1, "name": "allium"},
   {"start":31, "end":59, "number":2, "name": "anethum"},
@@ -29,7 +30,6 @@ const months = [
   {"start":326, "end":354, "number":12, "name": "zingiber"}
 ];
 
-// not sure days_this_year is accurate with leap years
 const greg = {};
 greg.current_year = new Date().getFullYear();
 greg.is_leapyear = (greg.current_year % 4 == 0); // TODO: it's more complicated than this
@@ -52,7 +52,7 @@ greg.current_day = (function() {
 // this does something with leap years at some point
 const coincident_gregorian_year = greg.current_year - (greg.current_day > offset ? 0 : 1);
 
-const days_this_year = (function(){
+const days_this_year = (function(){// not sure this is accurate with leap years
   let gg = greg.days_in_months; // is this right? should be of coincident_gregorian_year
   let total = 0;
   for (let i in gg) total += gg[i];
@@ -110,3 +110,38 @@ function format_for_html(date) {
 }
 
 document.getElementById("date_info").innerHTML = format_for_html(todays_date());
+
+const calendar_in_order = (function() {
+  let m = [];
+  m.push('new year\'s day');
+
+  let jj = 0;
+  for (let i = 0; i < months.length; i++) {
+    m.push(months[i]["name"]);
+    if (i % 2 != 0) {
+      jj = i - jj;
+      m.push('moon day ' + jj); // i=jj: 1=1, 3=2, 5=3, 7=4, 9=5, 11=6
+    }
+  }
+
+  m.push('end of year time');
+  return m;
+})();
+
+const calendar_display = (function() {
+  let s = "";
+  for (let i = 0; i < calendar_in_order.length; i++) {
+    if (calendar_in_order[i].includes("year")) {
+      s += '<li class="buffer">';
+    }
+    else if (calendar_in_order[i].includes("moon day")) {
+      s += '<li class="moon">';
+    } else {
+      s += '<li>';
+    }
+    s += calendar_in_order[i] + '</li>';
+  }
+  return s;
+})();
+
+document.getElementById("calendar-items").innerHTML = calendar_display;
