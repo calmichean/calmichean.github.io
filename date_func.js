@@ -15,18 +15,18 @@ const moon_days = {
   355: 6
 };
 const months = [
-  {"start":2, "end":30, "number":1, "name": "Allium"},
-  {"start":31, "end":59, "number":2, "name": "Anethum"},
-  {"start":61, "end":89, "number":3, "name": "Angustifolia"},
-  {"start":90, "end":118, "number":4, "name": "Basilica"},
-  {"start":120, "end":148, "number":5, "name": "Capsica"},
-  {"start":149, "end":177, "number":6, "name": "Crispa"},
-  {"start":179, "end":207, "number":7, "name": "Curcuma"},
-  {"start":208, "end":236, "number":8, "name": "Cymina"},
-  {"start":238, "end":266, "number":9, "name": "Origanum"},
-  {"start":267, "end":295, "number":10, "name": "Planifolia"},
-  {"start":297, "end":325, "number":11, "name": "Rosmarinus"},
-  {"start":326, "end":354, "number":12, "name": "Zingiber"}
+  {"start":2, "end":30, "number":1, "name": "allium"},
+  {"start":31, "end":59, "number":2, "name": "anethum"},
+  {"start":61, "end":89, "number":3, "name": "angustifolia"},
+  {"start":90, "end":118, "number":4, "name": "basilica"},
+  {"start":120, "end":148, "number":5, "name": "capsica"},
+  {"start":149, "end":177, "number":6, "name": "crispa"},
+  {"start":179, "end":207, "number":7, "name": "curcuma"},
+  {"start":208, "end":236, "number":8, "name": "cymina"},
+  {"start":238, "end":266, "number":9, "name": "origanum"},
+  {"start":267, "end":295, "number":10, "name": "planifolia"},
+  {"start":297, "end":325, "number":11, "name": "rosmarinus"},
+  {"start":326, "end":354, "number":12, "name": "zingiber"}
 ];
 
 // not sure days_this_year is accurate with leap years
