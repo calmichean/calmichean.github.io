@@ -3,7 +3,6 @@
 const offset = 78;
 const days_per_month = 29;
 const months_per_year = 12;
-const set = 59;
 const new_years_day = 1;
 const first_day_of_years_end = 356;
 const moon_days = {
@@ -30,24 +29,35 @@ const months = [
   {"start":326, "end":354, "number":12, "name": "zingiber"}
 ];
 
-const greg = {};
-greg.current_year = new Date().getFullYear();
-greg.is_leapyear = (greg.current_year % 4 == 0); // TODO: it's more complicated than this
-greg.days_in_months = {
-  1: 31,
-  2: greg.is_leapyear ? 29 : 28,
-  3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31
-};
-greg.current_day = (function() {
-  let date = new Date();
-  let month = date.getMonth() + 1;
-  let day = date.getDate();
-  let dm = greg.days_in_months;
-  for (let i = 1; i < month; i++){
-    day += dm[i];
+function gregorian_day_of_year(day, month, year) {
+  let date = new Date(year, month-1, day);
+  let dc = day_counts(year);
+  for (let i = 1; i < month; i++) {
+    day += dc[i];
   }
   return day;
-})();
+}
+
+function is_a_leap_year(year) {
+  return (year % 4 == 0); // TODO: it's more complicated than this
+}
+
+function day_counts(year) {
+  return {
+    1: 31,
+    2: is_a_leap_year(year) ? 29 : 28,
+    3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31
+  };
+}
+
+const greg = {};
+greg.current_year = new Date().getFullYear();
+greg.is_leapyear = is_a_leap_year(greg.current_year);
+greg.days_in_months = day_counts(greg.current_year);
+
+let date = new Date();
+greg.current_day = gregorian_day_of_year(date.getDate(), date.getMonth()+1, greg.current_year);
+
 
 // this does something with leap years at some point
 const coincident_gregorian_year = greg.current_year - (greg.current_day > offset ? 0 : 1);
@@ -58,6 +68,16 @@ const days_this_year = (function(){// not sure this is accurate with leap years
   for (let i in gg) total += gg[i];
   return total;
 })();
+
+function days_in_year(year) {
+  return 365 + (is_a_leap_year(year) ? 1 : 0);
+}
+
+function calm_day_from_greg_day(yday, year) {
+  let d = yday - offset;
+  if (d < 1) d += days_in_year(year);
+  return d;
+}
 
 const calmichean_current_day = (function(){
   let day = greg.current_day - offset;
@@ -95,6 +115,14 @@ function date_from_yday(year_day) {
     }
   }
   return {"month":m, "day":d, "month_name":m_name};
+}
+
+function convert(day, month, year) {
+  let gregday = gregorian_day_of_year(day, month, year);
+  let calmday = calm_day_from_greg_day(gregday);
+  let calmdate = date_from_yday(calmday);
+  let str = format_for_html(calmdate).replace('<br>',' ');
+  return str
 }
 
 function todays_date() {
@@ -145,3 +173,30 @@ const calendar_display = (function() {
 })();
 
 document.getElementById("calendar-items").innerHTML = calendar_display;
+
+function convert_on_page() {
+  let day = document.getElementById("formday").value;
+  let month = document.getElementById("formmonth").value;
+  let year = document.getElementById("formyear").value;
+  if (year == "") year = greg.current_year;
+
+  let strOutput = month+"/"+day+"/"+year + " would be<br/>";
+  strOutput += convert(parseInt(day), parseInt(month), parseInt(year));
+  document.getElementById("answer").innerHTML = strOutput;
+
+  document.getElementById("formday").value = "";
+  document.getElementById("formmonth").value = "";
+  document.getElementById("formyear").value = "";
+}
+
+let formClick = function(event) {
+  if (event.keyCode === 13) {
+    document.getElementById("convertButton").click();
+  }
+}
+let formyear = document.getElementById("formyear");
+let formday = document.getElementById("formday");
+let formmonth = document.getElementById("formmonth");
+formyear.addEventListener("keyup", formClick);
+formday.addEventListener("keyup", formClick);
+formmonth.addEventListener("keyup", formClick);

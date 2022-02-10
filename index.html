@@ -43,6 +43,18 @@
         color: #b0637b;
         font-style: oblique;
       }
+      #convert-form {
+        margin-top: 10%;
+        margin-bottom: 10%;
+        font-size: 0.7em;
+      }
+      button {
+        font-size:1em;
+      }
+      input {
+        width: 10%;
+        font-size:0.7em;
+      }
     </style>
   </head>
   <body>
@@ -61,6 +73,28 @@
         <li>thing</li>
       </ul>
     </article>
+
+    <article id="convert-form">
+      <h4>date convert</h4>
+      <p id="answer"></p>
+      <br />
+
+      <label for="formday">day</label>
+      <input type="text" id="formday" />
+      <br />
+
+      <label for="formmonth">month</label>
+      <input type="text" id="formmonth" />
+      <br />
+
+      <label for="formyear">year</label>
+      <input type="text" id="formyear" />
+      <br />
+
+      <button onclick="convert_on_page()" id="convertButton">go</button>
+    </article>
+
+
     <script src="date_func.js"></script>
   </body>
 </html>
